@@ -493,7 +493,46 @@ function AttemptPoliceAlert(type)
             chance = Config.PoliceNightAlertChance
         end
         if math.random() <= chance then
-           TriggerServerEvent('police:server:policeAlert', 'Vehicle theft in progress. Type: ' .. type)
+            --TriggerServerEvent('police:server:policeAlert', 'Vehicle theft in progress. Type: ' .. type)
+            if type == 'carjack' then 
+                local data = exports['cd_dispatch']:GetPlayerInfo()
+                TriggerServerEvent('cd_dispatch:AddNotification', {
+                    job_table = {'police'}, 
+                    coords = data.coords,
+                    title = '10-60 - Car Jakcing in progress',
+                    message = 'Attempted Armed Vehicle Theft of a '..data.vehicle_colour..' '..data.vehicle_label..' license plate '..data.vehicle_plate..' is in progress at '..data.street..' suspect is a '..data.sex..'.', 
+                    flash = 1,
+                    unique_id = tostring(math.random(0000000,9999999)),
+                    blip = {
+                        sprite = 58, 
+                        scale = 1.2, 
+                        colour = 59,
+                        flashes = true, 
+                        text = '10-60 - Car Jakcing in progress',
+                        time = (5*60*1000),
+                        sound = 1,
+                    }
+                })
+            else
+                local data = exports['cd_dispatch']:GetPlayerInfo()
+                TriggerServerEvent('cd_dispatch:AddNotification', {
+                    job_table = {'police'}, 
+                    coords = data.coords,
+                    title = '10-60 - Vehicle theft in progress',
+                    message = 'Vehicle Theft of a '..data.vehicle_colour..' '..data.vehicle_label..' license plate '..data.vehicle_plate..' is in progress at '..data.street..' suspect is a '..data.sex..'.', 
+                    flash = 1,
+                    unique_id = tostring(math.random(0000000,9999999)),
+                    blip = {
+                        sprite = 58, 
+                        scale = 1.2, 
+                        colour = 59,
+                        flashes = true, 
+                        text = '10-60 - Vehicle theft in progress',
+                        time = (5*60*1000),
+                        sound = 1,
+                    }
+                })
+            end
         end
         AlertSend = true
         SetTimeout(Config.AlertCooldown, function()
